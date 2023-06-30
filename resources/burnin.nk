@@ -2,11 +2,12 @@ set cut_paste_input [stack 0]
 version 6.3 v7
 push $cut_paste_input
 Group {
+ inputs 0
  name Group1
  note_font Verdana
  selected true
- xpos 68
- ypos -64
+ xpos 189
+ ypos -127
  mapsize {0.15 0.15}
 }
  Input {
@@ -17,35 +18,38 @@ Group {
  }
  Text {
   message "\{top_left\}"
+  font S:/Technical_Area/shotgrid_config/YCOM2_15968_config/install/app_store/tk-multi-reviewsubmission/v1.2.1/resources/CentraNo1-Bold.ttf
   size 48
-  yjustify top
+  yjustify bottom
   Transform 1
-  box {{40 40} {"\[value root.height]-40" 1516} 840 1310}
+  box {{40 40 x9 44.03870737} {"\[value root.height]-80" 1516 x9 1038.380981 x56 10400} 807.9612926 1261.619019}
   name top_left_text
   xpos 389
   ypos 212
  }
  Text {
   message "\[format %04d \[frame]]"
+  font S:/Technical_Area/shotgrid_config/YCOM2_15968_config/install/app_store/tk-multi-reviewsubmission/v1.2.1/resources/CentraNo1-Bold.ttf
   size 48
   xjustify right
   yjustify bottom
   Transform 1
-  box {{"\[value root.width]-40" i 2008} {40 i 40} 1208 240}
+  box {{"\[value root.width]-40" 2008} {40 40} 1208 240}
   name framecounter
   xpos 389
   ypos 236
  }
  Text {
   message "\{top_right\}\n"
+  font S:/Technical_Area/shotgrid_config/YCOM2_15968_config/install/app_store/tk-multi-reviewsubmission/v1.2.1/resources/CentraNo1-Bold.ttf
   size 48
   xjustify right
-  yjustify top
+  yjustify bottom
   Transform 1
-  box {{"\[value root.width]-40" i 2008} {"\[value root.height]-40" i 1516} 1200 1280}
+  box {{"\[value root.width]-40" 2008} {"\[value root.height]-80" 1516} 1200 1280}
   name top_right_text
   xpos 389
-  ypos 262
+  ypos 264
  }
  Text {
   message ""
@@ -59,47 +63,31 @@ Group {
  }
  Read {
   inputs 0
+  file_type tiff
+  file S:/MASTERS/Shopfront_14493/master/titled/Slates/CTV_Slate_v001_blank.tif
+  format "4096 2160 0 0 4096 2160 1 4K_DCP"
   origset true
-  premultiplied true
-  name logo
-  xpos 260
-  ypos 138
+  name Read1
+  xpos -29
+  ypos 113
  }
  Reformat {
-  type "to box"
-  box_width 400
-  name Reformat1
-  xpos 260
-  ypos 236
- }
- Transform {
-  translate {100 100}
-  name Transform
-  xpos 260
-  ypos 277
- }
- Constant {
-  inputs 0
-  name slate_base
-  xpos 171
-  ypos 137
+  name Reformat2
+  xpos 16
+  ypos 242
  }
  Text {
-  message ""
-  size 65
-  leading 0.3
-  yjustify center
+  message "ycom\n\ntest_v01\n1001 - 1020\n20 / 03 / 2023\nPerfect. Ship it."
+  font S:/Technical_Area/shotgrid_config/YCOM2_15968_config/install/app_store/tk-multi-reviewsubmission/v1.2.1/resources/liberationsans_regular.ttf
+  size 45
+  leading 0.2
+  yjustify top
   Transform 1
-  box {300 {"(\[value root.height]/2)-500"} 1800 1389}
+  box {510 {"(\[value root.height]/2)+200" 758 40} 1710 414.7661304}
+  color 0
   name slate_info
-  xpos 171
-  ypos 252
- }
- Merge {
-  inputs 2
-  name slate_merge
-  xpos 215
-  ypos 328
+  xpos 40
+  ypos 321
  }
  Switch {
   inputs 2
@@ -107,11 +95,99 @@ Group {
   name slate_or_burnin_chooser
   label "Switches to the slate if curr_frame < start_frame for the current scene."
   xpos 389
-  ypos 347
+  ypos 378
  }
+set N9687f800 [stack 0]
  Output {
   name Output1
   xpos 389
   ypos 473
+ }
+ Read {
+  inputs 0
+  file_type png
+  file S:/Technical_Area/shotgrid_config/YCOM2_15968_config/config/icons/ctv_logo_white.png
+  format "3500 1050 0 0 3500 1050 1 "
+  origset true
+  premultiplied true
+  raw true
+  name logo
+  xpos 260
+  ypos 138
+ }
+ Reformat {
+  type "to box"
+  box_width 600
+  name Reformat1
+  xpos 260
+  ypos 236
+ }
+ Transform {
+  translate {550 60}
+  name Transform
+  xpos 265
+  ypos 271
+ }
+ Constant {
+  inputs 0
+  color {1 0.30433 0 1}
+  name slate_base
+  xpos 97
+  ypos 30
+ }
+ OCIOColorSpace {
+  channels rgba
+  in_colorspace "Input - Generic - sRGB - Texture"
+  out_colorspace "Output - Rec.709"
+  name OCIOColorSpace1
+  xpos 122
+  ypos 134
+ }
+ Text {
+  message "SHOW\nVENDOR\nVERSION\nRANGE\nDATE\nCOMMENT"
+  font S:/Technical_Area/shotgrid_config/YCOM2_15968_config/install/app_store/tk-multi-reviewsubmission/v1.2.1/resources/CentraNo1-Extrabold.ttf
+  size 65
+  leading 0.3
+  xjustify right
+  yjustify top
+  Transform 1
+  box {13 {"(\[value root.height]/2)+270" x1 840} 563 300}
+  color 0
+  name slate_title
+  xpos 134
+  ypos 219
+ }
+ Text {
+  message "delivery@coffeeand.tv\n+44 (0)20 7734 3299\n"
+  font S:/Technical_Area/shotgrid_config/YCOM2_15968_config/install/app_store/tk-multi-reviewsubmission/v1.2.1/resources/CentraNo1-Medium.ttf
+  size 35
+  leading 0.3
+  yjustify top
+  Transform 1
+  box {610 -428 1210 92}
+  color 0
+  name slate_info1
+  xpos 149
+  ypos 255
+ }
+ Text {
+  message "ycom\nCOFFEE & TV\ntest_v01\n1001 - 1020\n20 / 03 / 2023\nPerfect. Ship it."
+  font S:/Technical_Area/shotgrid_config/YCOM2_15968_config/install/app_store/tk-multi-reviewsubmission/v1.2.1/resources/CentraNo1-Medium.ttf
+  size 65
+  leading 0.3
+  yjustify top
+  Transform 1
+  box {600 {"(\[value root.height]/2)+270" x1 40} 1800 540}
+  color 0
+  name slate_info2
+  xpos 148
+  ypos 315
+ }
+push 0
+ Merge {
+  inputs 2
+  name slate_merge
+  xpos 214
+  ypos 353
  }
 end_group

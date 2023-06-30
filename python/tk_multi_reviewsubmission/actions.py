@@ -17,9 +17,7 @@ class Actions(object):
         self.__app = sgtk.platform.current_bundle()
 
         can_submit = self.__app.execute_hook_method(
-            key="submitter_hook",
-            method_name="can_submit",
-            base_class=None,
+            key="submitter_hook", method_name="can_submit", base_class=None,
         )
 
         if not can_submit:
@@ -103,6 +101,11 @@ class Actions(object):
         else:
             output_path = None
 
+        name_value = fields.get("name", "Unnamed")
+        name_value = fields.get("stream", name_value)
+
+
+        # TODO: don't forget this in my version of the app
         render_media_hook_args = {
             "input_path": input_path,
             "output_path": output_path,
@@ -111,11 +114,12 @@ class Actions(object):
             "first_frame": first_frame,
             "last_frame": last_frame,
             "version": fields.get("version", 0),
-            "name": fields.get("name", "Unnamed"),
+            "name": name_value,
             "color_space": color_space,
+            "comment": comment
         }
 
-        dispatch_progress(20, "Executing the pre-rende hook")
+        dispatch_progress(20, "Executing the pre-render hook")
 
         self.__app.execute_hook_method(
             key="render_media_hook",

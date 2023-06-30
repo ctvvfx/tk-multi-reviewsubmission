@@ -32,6 +32,9 @@ class RenderMedia(HookBaseClass):
             self.__app.disk_location, "resources", "burnin.nk"
         )
         self._font = os.path.join(
+            self.__app.disk_location, "resources", "CentraNo1-Book.ttf"
+        )
+        self._slate_font = os.path.join(
             self.__app.disk_location, "resources", "liberationsans_regular.ttf"
         )
 
@@ -47,9 +50,11 @@ class RenderMedia(HookBaseClass):
         # now transform paths to be forward slashes, otherwise it wont work on windows.
         if sgtk.util.is_windows():
             self._font = self._font.replace(os.sep, "/")
+            self._slate_font = self._slate_font.replace(os.sep, "/")
             self._logo = self._logo.replace(os.sep, "/")
             self._burnin_nk = self._burnin_nk.replace(os.sep, "/")
 
+    # TODO: move this into my own version of the multi-review submission
     def __project_specific(self, **kwargs):
         return kwargs.get("input")
 
@@ -110,10 +115,8 @@ class RenderMedia(HookBaseClass):
             burn.node("top_right_text")["font"].setValue(self._font)
             burn.node("bottom_left_text")["font"].setValue(self._font)
             burn.node("framecounter")["font"].setValue(self._font)
-            burn.node("slate_info")["font"].setValue(self._font)
+            burn.node("slate_info")["font"].setValue(self._slate_font)
 
-            # add the logo
-            burn.node("logo")["file"].setValue(self._logo)
 
             # format the burnins
             version_padding_format = "%%0%dd" % self.__app.get_setting(
@@ -122,9 +125,9 @@ class RenderMedia(HookBaseClass):
             version_str = version_padding_format % version
 
             if ctx.task:
-                version_label = "%s, v%s" % (ctx.task["name"], version_str)
+                version_label = "%s_%s_v%s" % (ctx.task["name"], name, version_str)
             elif ctx.step:
-                version_label = "%s, v%s" % (ctx.step["name"], version_str)
+                version_label = "%s_%s_v%s" % (ctx.step["name"], name, version_str)
             else:
                 version_label = "v%s" % version_str
 
@@ -132,18 +135,16 @@ class RenderMedia(HookBaseClass):
             burn.node("top_right_text")["message"].setValue(ctx.entity["name"])
             burn.node("bottom_left_text")["message"].setValue(version_label)
 
+            import datetime
+            date_str = datetime.datetime.now().strftime("%d / %m / %Y")
+
             # and the slate
-            slate_str = "Project: %s\n" % ctx.project["name"]
-            slate_str += "%s: %s\n" % (ctx.entity["type"], ctx.entity["name"])
-            slate_str += "Name: %s\n" % name.capitalize()
-            slate_str += "Version: %s\n" % version_str
-
-            if ctx.task:
-                slate_str += "Task: %s\n" % ctx.task["name"]
-            elif ctx.step:
-                slate_str += "Step: %s\n" % ctx.step["name"]
-
-            slate_str += "Frames: %s - %s\n" % (first_frame, last_frame)
+            slate_str = "%s\n" % ctx.project["name"]
+            slate_str += "\n" # Empty line for the Vendor section - baked in to the BG
+            slate_str += "%s_%s\n" % (ctx.entity["name"], version_label)
+            slate_str += "%s - %s\n" % (first_frame, last_frame)
+            slate_str += "%s\n" % date_str
+            slate_str += "%s" % comment
 
             burn.node("slate_info")["message"].setValue(slate_str)
 
