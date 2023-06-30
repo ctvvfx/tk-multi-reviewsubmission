@@ -31,6 +31,7 @@ class RenderMedia(HookBaseClass):
         version,
         name,
         color_space,
+        comment
     ):
         """
         Render the media
@@ -61,6 +62,7 @@ class RenderMedia(HookBaseClass):
         version,
         name,
         color_space,
+        comment
     ):
         """
         Callback executed before the media rendering
@@ -92,6 +94,7 @@ class RenderMedia(HookBaseClass):
         version,
         name,
         color_space,
+        comment
     ):
         """
         Callback executed after the media rendering

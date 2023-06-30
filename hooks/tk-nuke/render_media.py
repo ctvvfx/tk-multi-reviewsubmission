@@ -50,6 +50,9 @@ class RenderMedia(HookBaseClass):
             self._logo = self._logo.replace(os.sep, "/")
             self._burnin_nk = self._burnin_nk.replace(os.sep, "/")
 
+    def __project_specific(self, **kwargs):
+        return kwargs.get("input")
+
     def render(
         self,
         input_path,
@@ -61,6 +64,7 @@ class RenderMedia(HookBaseClass):
         version,
         name,
         color_space,
+        comment
     ):
         """
         Use Nuke to render a movie.
@@ -95,9 +99,11 @@ class RenderMedia(HookBaseClass):
             if color_space:
                 read["colorspace"].setValue(color_space)
 
+            output = self.__project_specific(input=read)
+
             # now create the slate/burnin node
             burn = nuke.nodePaste(self._burnin_nk)
-            burn.setInput(0, read)
+            burn.setInput(0, output)
 
             # set the fonts for all text fields
             burn.node("top_left_text")["font"].setValue(self._font)
